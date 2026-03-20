@@ -1,0 +1,16 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Environment files
+.env
+.env.*
+
+# Local DB / caches
+*.sqlite
+*.db
+
+# Logs
+*.log
+

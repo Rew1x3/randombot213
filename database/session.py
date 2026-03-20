@@ -9,6 +9,7 @@ engine: AsyncEngine = create_async_engine(
     settings.database_url,
     echo=False,
     pool_pre_ping=True,
+    connect_args=({"charset": "utf8mb4"} if settings.db_type == "mysql" else {}),
 )
 SessionLocal = async_sessionmaker(bind=engine, expire_on_commit=False, class_=AsyncSession)
 

@@ -47,9 +47,10 @@ def get_settings() -> Settings:
 
     admin_ids = _parse_admin_ids()
 
-    subscription_channel_id = _get_int("SUBSCRIPTION_CHANNEL_ID", None)
-    if subscription_channel_id is None:
-        raise RuntimeError("SUBSCRIPTION_CHANNEL_ID is not set (required for subscription check)")
+    # На некоторых хостингах переменные окружения/файлы .env могут не подхватываться.
+    # Чтобы бот не падал на старте, делаем значение необязательным и валидируем позже по бизнес-логике.
+    # 0 = "не настроено"
+    subscription_channel_id = _get_int("SUBSCRIPTION_CHANNEL_ID", 0) or 0
 
     db_type = os.getenv("DB_TYPE", "sqlite").strip().lower()
     log_level = os.getenv("LOG_LEVEL", "INFO").strip().upper()

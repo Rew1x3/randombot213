@@ -95,6 +95,11 @@ async def winners_count_step(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.effective_message.reply_text("Число победителей должно быть > 0.")
         return STATE_WINNERS_COUNT
     context.user_data[USERDATA["winners_count"]] = winners_count
+    if settings.subscription_channel_id == 0:
+        await update.effective_message.reply_text(
+            "ВНИМАНИЕ: SUBSCRIPTION_CHANNEL_ID в `.env` не задана. "
+            "Введите ID канала/чата для проверки подписки вручную на следующем шаге."
+        )
     await update.effective_message.reply_text(
         "Укажите ID канала/чата для проверки подписки (куда пользователь должен быть подписан).\n"
         f"Можно ввести пустое сообщение, чтобы использовать значение из .env: `{settings.subscription_channel_id}`"

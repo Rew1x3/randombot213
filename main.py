@@ -17,6 +17,14 @@ from utils.logging import setup_logging
 
 
 async def post_init(application: Application) -> None:
+    # На некоторых хостингах могут остаться старые webhook'ы.
+    # Нам нужен polling, поэтому сбрасываем webhook при старте.
+    try:
+        await application.bot.delete_webhook(drop_pending_updates=True)
+    except Exception:
+        # Если вебхук не настроен/недоступен — не считаем это критичным.
+        pass
+
     # Бэкапим username для формирования deep-link
     try:
         me = await application.bot.get_me()

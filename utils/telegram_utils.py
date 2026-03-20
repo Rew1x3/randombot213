@@ -16,6 +16,10 @@ async def is_user_subscribed(
     Проверка подписки через getChatMember.
     Возвращает True, если пользователь состоит в канале (member/administrator/creator).
     """
+    if channel_id == 0:
+        # Неправильная конфигурация: подписка не настроена.
+        return False
+
     try:
         member = await bot.get_chat_member(chat_id=channel_id, user_id=user_id)
     except (Forbidden, BadRequest):

@@ -46,6 +46,13 @@ async def join_by_giveaway_id(
             await _notify_user("Этот розыгрыш уже завершён.")
             return
 
+        if giveaway.subscription_channel_id == 0:
+            await _notify_user(
+                "Похоже, администратор не настроил канал для проверки подписки для этого розыгрыша. "
+                "Попробуйте позже."
+            )
+            return
+
         subscribed = await is_user_subscribed(bot, giveaway.subscription_channel_id, user_id)
         if not subscribed:
             await _notify_user(
